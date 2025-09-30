@@ -1,73 +1,70 @@
-# Welcome to your Lovable project
+# Authentication Setup
 
-## Project info
+## Environment Variables
 
-**URL**: https://lovable.dev/projects/1ecdaaab-01d7-410e-8dca-75e40066be1d
+Create a `.env` file in the frontend directory with the following content:
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/1ecdaaab-01d7-410e-8dca-75e40066be1d) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+VITE_API_URL=http://localhost:3000/api/v1
 ```
 
-**Edit a file directly in GitHub**
+## Features Implemented
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### 1. Authentication System
+- **Register Page**: Complete registration form with file uploads (KTM, berkas pendukung, foto profil)
+- **Login Page**: NIM and password authentication
+- **Protected Routes**: Automatic redirection based on authentication status
+- **Auth Context**: Global state management for user authentication
 
-**Use GitHub Codespaces**
+### 2. Pages Created
+- `/register` - User registration with file uploads
+- `/login` - User login
+- `/dashboard` - Protected dashboard for authenticated users
+- `/pending-approval` - Page for users waiting for admin approval
+- `/unauthorized` - Error page for unauthorized access
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### 3. Backend Integration
+- API client with proper error handling
+- JWT token management
+- File upload support for registration
+- Automatic token refresh and validation
 
-## What technologies are used for this project?
+### 4. Form Validation
+- Zod schema validation for all forms
+- Real-time error display
+- File upload validation
+- Password confirmation matching
 
-This project is built with:
+## How to Run
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. **Backend**: Make sure the backend server is running on port 3000
+2. **Frontend**: Run the development server:
+   ```bash
+   npm run dev
+   ```
+3. **Environment**: Set the `VITE_API_URL` environment variable to point to your backend
 
-## How can I deploy this project?
+## User Flow
 
-Simply open [Lovable](https://lovable.dev/projects/1ecdaaab-01d7-410e-8dca-75e40066be1d) and click on Share -> Publish.
+1. **Registration**: Users fill out the registration form and upload required documents
+2. **Pending Approval**: After registration, users are redirected to a pending approval page
+3. **Admin Approval**: Admin approves/rejects the registration through the backend
+4. **Login**: Approved users can log in with their NIM and password
+5. **Dashboard**: Authenticated users can access the protected dashboard
 
-## Can I connect a custom domain to my Lovable project?
+## File Upload Requirements
 
-Yes, you can!
+The registration form requires three file uploads:
+- **KTM**: Kartu Tanda Mahasiswa (Student ID card)
+- **Berkas Pendukung**: Supporting documents
+- **Foto Profil**: Profile photo
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+All files must be image formats (PNG, JPG, JPEG).
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## Security Features
+
+- JWT token-based authentication
+- Protected routes with role-based access
+- Automatic token validation
+- Secure file upload handling
+- Form validation and sanitization
