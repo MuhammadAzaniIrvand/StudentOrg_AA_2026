@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, Eye, EyeOff } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import logoLogin from '@/assets/Login-amico.svg';
 
 const loginSchema = z.object({
   nim: z.string().min(1, 'NIM wajib diisi'),
@@ -67,20 +68,18 @@ const Login: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
             Masuk ke Akun
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            Koperasi Mahasiswa UIN SGD Bandung
-          </p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Login</CardTitle>
-            <CardDescription>
+            <CardTitle className='text-center'>Login</CardTitle>
+            <CardDescription className='text-center'>
               Masukkan NIM dan password Anda
             </CardDescription>
           </CardHeader>
@@ -165,6 +164,16 @@ const Login: React.FC = () => {
             </div>
           </CardContent>
         </Card>
+      </div>
+      {/* Kanan: Ilustrasi dan deskripsi */}
+        <div className="flex flex-col items-center text-center lg:text-left lg:items-end">
+          <img
+            src={logoLogin}
+            alt="Ilustrasi tim"
+            className="w-full max-w-lg md:max-w-xl h-auto drop-shadow-2xl"
+            loading="eager"
+          />
+        </div>
       </div>
     </div>
   );
