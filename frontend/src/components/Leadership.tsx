@@ -1,13 +1,13 @@
 import { Linkedin, Mail, Twitter } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import leader1 from '@/assets/leader-1.jpg';
-import leader2 from '@/assets/leader-2.jpg';
+import leader1 from '@/assets/foto abd.jpg';
+import leader2 from '@/assets/foto azani.jpg';
 
 const Leadership = () => {
   const leaders = [
     {
-      name: 'Sarah Chen',
+      name: 'Abdurrahman Marzuki',
       position: 'President',
       major: 'Computer Science',
       year: 'Senior',
@@ -15,20 +15,20 @@ const Leadership = () => {
       bio: 'Passionate about technology and community building. Leading initiatives in diversity and inclusion.',
       social: {
         linkedin: '#',
-        email: 'sarah.chen@university.edu',
+        email: 'abdurrahmanmarzuki@gmail.com',
         twitter: '#'
       }
     },
     {
-      name: 'Marcus Johnson',
+      name: 'Azani Irvand',
       position: 'Vice President',
-      major: 'Business Administration',
+      major: 'Computer Science',
       year: 'Junior',
       image: leader2,
       bio: 'Focused on organizational growth and strategic partnerships with local businesses.',
       social: {
         linkedin: '#',
-        email: 'marcus.j@university.edu',
+        email: 'manzani@gmail.com',
         twitter: '#'
       }
     }
