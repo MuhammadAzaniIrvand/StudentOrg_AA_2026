@@ -8,6 +8,11 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    allowedHosts: [
+      'studentorg-aa-2026-frontend-217277275848.asia-southeast2.run.app',
+      '.run.app', // Allow all *.run.app domains
+      'localhost'
+    ]
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
