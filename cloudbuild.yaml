@@ -1,0 +1,62 @@
+# This file defines the Continuous Integration/Deployment pipeline for Google Cloud Build.
+# It builds Docker images for the backend and frontend, pushes them to GCR,
+# and then deploys them to Google Cloud Run.
+
+steps:
+  # 1. Build the Docker image for the Backend
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/studentorg-backend:latest', './Backend']
+    id: 'Build Backend'
+
+  # 2. Build the Docker image for the Frontend
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/studentorg-frontend:latest', './frontend']
+    id: 'Build Frontend'
+
+  # 3. Push the Backend image to Google Container Registry (GCR)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/studentorg-backend:latest']
+    waitFor: ['Build Backend']
+
+  # 4. Push the Frontend image to Google Container Registry (GCR)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/studentorg-frontend:latest']
+    waitFor: ['Build Frontend']
+
+  # 5. Deploy the Backend to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'studentorg-aa-2026-backend' # Your backend service name
+      - '--image=gcr.io/$PROJECT_ID/studentorg-backend:latest'
+      - '--region=asia-southeast2'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      # This line connects your backend to the MongoDB Atlas database via Secret Manager
+      - '--update-secrets=MONGO_URI=mongo-uri:latest'
+    waitFor:
+      - 'Push the Backend image to Google Container Registry (GCR)'
+
+  # 6. Deploy the Frontend to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'studentorg-aa-2026-frontend' # Your frontend service name
+      - '--image=gcr.io/$PROJECT_ID/studentorg-frontend:latest'
+      - '--region=asia-southeast2'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      # This line tells your frontend where to find the backend API
+      # Replace the URL if your backend has a different one
+      - '--set-env-vars=VITE_API_URL=https://studentorg-aa-2026-backend-rgtda4a6eq-et.a.run.app/api/v1'
+    waitFor:
+      - 'Push the Frontend image to Google Container Registry (GCR)'
+
+# This section lists the final images that will be stored in GCR
+images:
+  - 'gcr.io/$PROJECT_ID/studentorg-backend:latest'
+  - 'gcr.io/$PROJECT_ID/studentorg-frontend:latest'
