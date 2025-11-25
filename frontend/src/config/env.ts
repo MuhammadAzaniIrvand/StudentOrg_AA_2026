@@ -1,4 +1,4 @@
-const defaultApi = 'http://localhost:3000/api/v1';
+const defaultApi = 'https://backend-studentorg-anda.asia-southeast2.run.app/api/v1';
 const apiUrl = import.meta.env.VITE_API_URL || defaultApi;
 const assetsBaseUrl = apiUrl.replace(/\/api\/.*/, '');
 
