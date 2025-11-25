@@ -51,8 +51,9 @@ steps:
       - '--platform=managed'
       - '--allow-unauthenticated'
       # This line tells your frontend where to find the backend API
-      # Replace the URL if your backend has a different one
-      - '--set-env-vars=VITE_API_URL=https://studentorg-aa-2026-backend-rgtda4a6eq-et.a.run.app/api/v1'
+      # GANTI URL DI BAWAH INI dengan URL dari 'backend-service'
+      - '--set-env-vars=VITE_API_URL=https://backend-service-217277275848.asia-southeast2.run.app/api/v1'
+      - '--update-secrets=MONGO_URI=mongo-uri:latest'
     waitFor:
       - 'Push the Frontend image to Google Container Registry (GCR)'
 
