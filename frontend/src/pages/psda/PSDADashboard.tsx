@@ -7,6 +7,10 @@ import { LogOut, Users, FileText, CreditCard, BarChart3, Settings, Shield, Datab
 const PSDADashboard: React.FC = () => {
   const { user, logout } = useAuth();
 
+  React.useEffect(() => {
+    console.log('PSDADashboard mounted — user:', user?.email || user?.nama || 'no-user');
+  }, [user]);
+
   const handleLogout = () => {
     logout();
   };
@@ -35,6 +39,10 @@ const PSDADashboard: React.FC = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        {/* Debug banner: visible to confirm this component is mounted on deployment */}
+        <div style={{ padding: 12, background: '#f0f9ff', color: '#0369a1', borderRadius: 8, marginBottom: 16 }}>
+          <strong>Debug:</strong> PSDADashboard component mounted.
+        </div>
         <div className="px-4 py-6 sm:px-0">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Total Anggota */}
