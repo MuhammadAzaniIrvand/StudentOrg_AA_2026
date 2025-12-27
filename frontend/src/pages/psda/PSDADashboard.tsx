@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { LogOut, Users, FileText, CreditCard, BarChart3, Settings, Shield, Database } from 'lucide-react';
+import { LogOut, Users, FileText, BarChart3, Settings, Shield } from 'lucide-react';
 import { apiClient } from '@/lib/api';
 import { Loader2 } from 'lucide-react';
 
@@ -213,87 +213,6 @@ const PSDADashboard: React.FC = () => {
                     <a href="/psda/events">Kelola Event</a>
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* Manajemen Data */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Database className="mr-2 h-5 w-5" />
-                  Manajemen Data
-                </CardTitle>
-                <CardDescription>
-                  Kelola data dan informasi koperasi
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <Button className="w-full justify-start" variant="outline">
-                  <Database className="mr-2 h-4 w-4" />
-                  Backup Data
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <FileText className="mr-2 h-4 w-4" />
-                  Export Data
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <Settings className="mr-2 h-4 w-4" />
-                  Konfigurasi Database
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Audit dan Compliance */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Shield className="mr-2 h-5 w-5" />
-                  Audit dan Compliance
-                </CardTitle>
-                <CardDescription>
-                  Audit internal dan kepatuhan regulasi
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <Button className="w-full justify-start" variant="outline">
-                  <Shield className="mr-2 h-4 w-4" />
-                  Audit Internal
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <FileText className="mr-2 h-4 w-4" />
-                  Laporan Compliance
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <Settings className="mr-2 h-4 w-4" />
-                  Pengaturan Audit
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Laporan Regulator */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <FileText className="mr-2 h-5 w-5" />
-                  Laporan Regulator
-                </CardTitle>
-                <CardDescription>
-                  Laporan untuk otoritas pengawas
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <Button className="w-full justify-start" variant="outline">
-                  <FileText className="mr-2 h-4 w-4" />
-                  Laporan OJK
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <FileText className="mr-2 h-4 w-4" />
-                  Laporan Kemenkumham
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <FileText className="mr-2 h-4 w-4" />
-                  Laporan Pajak
-                </Button>
               </CardContent>
             </Card>
           </div>
