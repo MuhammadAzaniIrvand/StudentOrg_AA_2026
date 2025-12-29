@@ -306,6 +306,20 @@ class ApiClient {
       body: JSON.stringify({ role })
     });
   }
+
+  // ================
+  // Admin Monitoring
+  // ================
+  
+  // Mengambil statistik ringkasan (Total user, pending, approved, rejected)
+  async getAdminStats(): Promise<ApiResponse<{ stats: any, facultyStats: any[], roleStats: any[] }>> {
+    return this.request('/admin/stats');
+  }
+
+  // Mengambil log aktivitas sistem
+  async getActivityLogs(page = 1, limit = 10): Promise<ApiResponse<{ logs: any[], total: number, totalPages: number }>> {
+    return this.request(`/admin/activity-logs?page=${page}&limit=${limit}`);
+  }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);
