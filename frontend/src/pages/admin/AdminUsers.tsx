@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { apiClient } from '@/lib/api';
+import { apiClient, User } from '@/lib/api'; // Pastikan import User juga
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast'; // Tambahkan toast untuk feedback
 
 const AdminUsers: React.FC = () => {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [search, setSearch] = useState('');
   const [saving, setSaving] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const load = async () => {
-    const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1'}/admin/users`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    });
-    const data = await res.json();
-    setUsers(data.data?.users || []);
+    try {
+      // Gunakan apiClient yang sudah benar URL-nya
+      const response = await apiClient.getUsers();
+      if (response.success && response.data) {
+        setUsers(response.data.users);
+      }
+    } catch (error) {
+      console.error("Gagal memuat user:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Gagal memuat data pengguna.",
+      });
+    }
   };
 
   useEffect(() => { load(); }, []);
@@ -30,12 +41,19 @@ const AdminUsers: React.FC = () => {
   const updateRole = async (userId: string, role: string) => {
     setSaving(userId);
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1'}/admin/users/${userId}/role`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
-        body: JSON.stringify({ role })
+      // Gunakan apiClient untuk update role juga
+      await apiClient.updateUserRole(userId, role);
+      toast({
+        title: "Berhasil",
+        description: "Role pengguna berhasil diperbarui.",
       });
       await load();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Gagal",
+        description: "Gagal mengubah role pengguna.",
+      });
     } finally {
       setSaving(null);
     }
@@ -72,12 +90,12 @@ const AdminUsers: React.FC = () => {
                 </TableHeader>
                 <TableBody>
                   {filtered.map((u) => (
-                    <TableRow key={u._id}>
+                    <TableRow key={u.id || u._id}> {/* Handle id/underscore id */}
                       <TableCell className="font-medium">{u.nim}</TableCell>
                       <TableCell>{u.nama}</TableCell>
                       <TableCell>{u.email}</TableCell>
                       <TableCell>
-                        <Select defaultValue={u.role} onValueChange={(val) => updateRole(u._id, val)}>
+                        <Select defaultValue={u.role} onValueChange={(val) => updateRole(u.id || u._id, val)}>
                           <SelectTrigger className="w-[150px]">
                             <SelectValue />
                           </SelectTrigger>
@@ -90,15 +108,17 @@ const AdminUsers: React.FC = () => {
                       </TableCell>
                       <TableCell>{u.status}</TableCell>
                       <TableCell className="text-right">
-                        <Button variant="outline" size="sm" disabled={saving === u._id} onClick={() => updateRole(u._id, u.role)}>
-                          {saving === u._id ? 'Menyimpan...' : 'Simpan'}
+                        <Button variant="outline" size="sm" disabled={saving === (u.id || u._id)} onClick={() => updateRole(u.id || u._id, u.role)}>
+                          {saving === (u.id || u._id) ? 'Menyimpan...' : 'Simpan'}
                         </Button>
                       </TableCell>
                     </TableRow>
                   ))}
                   {filtered.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={6} className="text-center text-gray-500">Tidak ada data</TableCell>
+                      <TableCell colSpan={6} className="text-center py-4">
+                        Tidak ada data pengguna.
+                      </TableCell>
                     </TableRow>
                   )}
                 </TableBody>

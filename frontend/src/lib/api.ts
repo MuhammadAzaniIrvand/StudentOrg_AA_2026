@@ -291,6 +291,21 @@ class ApiClient {
   async rejectApplication(id: string, reason?: string): Promise<ApiResponse> {
     return this.request(`/psda/applications/${id}/reject`, { method: 'PUT', body: JSON.stringify({ reason }) });
   }
+
+  // =====================
+  // Admin User Management
+  // =====================
+  async getUsers(role?: string): Promise<ApiResponse<{ users: User[] }>> {
+    const qs = role ? `?role=${role}` : '';
+    return this.request(`/admin/users${qs}`);
+  }
+
+  async updateUserRole(userId: string, role: string): Promise<ApiResponse<{ user: User }>> {
+    return this.request(`/admin/users/${userId}/role`, {
+      method: 'PUT',
+      body: JSON.stringify({ role })
+    });
+  }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);
