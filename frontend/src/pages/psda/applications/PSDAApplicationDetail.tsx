@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+simport React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { apiClient } from '@/lib/api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { getFileUrl } from '@/lib/utils';
 
 const PSDAApplicationDetail: React.FC = () => {
   const { id } = useParams();
@@ -65,7 +66,7 @@ const PSDAApplicationDetail: React.FC = () => {
                     <div>
                       <div className="text-xs text-gray-500 mb-1">KTM</div>
                       <a href={data.ktmFile ? `/uploads/ktm/${data.ktmFile}` : '#'} target="_blank" rel="noreferrer">
-                        <img src={data.ktmFile ? `/uploads/ktm/${data.ktmFile}` : ''} alt="KTM" className="w-full h-24 object-cover bg-gray-200" />
+                        <img src={getFileUrl(data.ktmFile)} alt="KTM" className="max-w-full h-auto rounded-lg border" />
                       </a>
                     </div>
                     <div>
@@ -77,7 +78,7 @@ const PSDAApplicationDetail: React.FC = () => {
                     <div>
                       <div className="text-xs text-gray-500 mb-1">Foto</div>
                       <a href={data.fotoProfile ? `/uploads/foto/${data.fotoProfile}` : '#'} target="_blank" rel="noreferrer">
-                        <img src={data.fotoProfile ? `/uploads/foto/${data.fotoProfile}` : ''} alt="Foto" className="w-full h-24 object-cover bg-gray-200" />
+                        <img src={getFileUrl(data.fotoProfile)} alt="Foto" className="w-32 h-32 object-cover rounded-lg" />
                       </a>
                     </div>
                   </div>
